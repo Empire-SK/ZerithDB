@@ -76,20 +76,15 @@ That's it. No `.env` files. No `docker-compose.yml`. No cloud accounts.
 
 ## Quick Start
 
-### Option 1: CLI (Recommended)
+### Installation
+
+> **Note:** ZerithDB is currently in alpha and packages are not yet published to NPM. To use it, please clone the repository!
 
 ```bash
-npx zerithdb@latest init my-app
-cd my-app
-npm run dev
-```
-
-### Option 2: Manual Install
-
-```bash
-pnpm add zerithdb-sdk
-# or
-npm install zerithdb-sdk
+git clone https://github.com/Zerith-Labs/ZerithDB.git
+cd ZerithDB
+pnpm install
+pnpm dev
 ```
 
 ### Minimal Setup
