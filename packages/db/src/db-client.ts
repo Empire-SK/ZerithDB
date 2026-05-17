@@ -228,8 +228,7 @@ class ZerithDBDexie extends Dexie {
  */
 export class DbClient {
   private readonly dexie: ZerithDBDexie;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private readonly collections = new Map<string, CollectionClient<any>>();
+  private readonly collections = new Map<string, CollectionClient>();
 
   constructor(config: ZerithDBConfig) {
     this.dexie = new ZerithDBDexie(config.appId);
