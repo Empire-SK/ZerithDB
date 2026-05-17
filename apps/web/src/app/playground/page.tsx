@@ -34,7 +34,7 @@ export default function PlaygroundPage() {
         const existing = acc.find((n) => n.id === curr.id);
         if (!existing) {
           acc.push(curr);
-        } else if (curr.timestamp > existing.timestamp) {
+        } else if (curr.timestamp > existing.timestamp || (curr.timestamp === existing.timestamp && curr.text.localeCompare(existing.text) > 0)) {
           existing.text = curr.text;
           existing.timestamp = curr.timestamp;
         }
@@ -42,10 +42,12 @@ export default function PlaygroundPage() {
       }, [] as Note[]);
 
       // Only update if there's an actual difference to prevent infinite loops
-      if (JSON.stringify(merged) !== JSON.stringify(clientA)) setClientA(merged); // eslint-disable-line react-hooks/set-state-in-effect
-      if (JSON.stringify(merged) !== JSON.stringify(clientB)) setClientB(merged);
+      const changedA = JSON.stringify(merged) !== JSON.stringify(clientA);
+      const changedB = JSON.stringify(merged) !== JSON.stringify(clientB);
+      if (changedA) setClientA(merged); // eslint-disable-line react-hooks/set-state-in-effect
+      if (changedB) setClientB(merged);
 
-      if (clientA.length > 0 || clientB.length > 0) {
+      if (changedA || changedB) {
         setSyncCount((prev) => prev + 1);
       }
     }
@@ -53,7 +55,7 @@ export default function PlaygroundPage() {
 
   const addNote = (client: "A" | "B", text: string) => {
     if (!text.trim()) return;
-    const newNote = { id: Math.random().toString(36).substring(7), text, timestamp: Date.now() };
+    const newNote = { id: crypto.randomUUID(), text, timestamp: Date.now() };
 
     if (client === "A") {
       setClientA([...clientA, newNote]);
